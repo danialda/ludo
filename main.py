@@ -1,23 +1,20 @@
 import pygame
-from ludo.constants import WIDTH, HEIGHT
-
-
-WIN = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption('Blob Wars')
-
+import sys
+from ludo.game_structure import GameStructure
 
 def main():
-    run = True
-    while run:
-
+    clock = pygame.time.Clock()
+    game = GameStructure()
+    while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                run = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                pos = pygame.mouse.get_pos()
-                # row, col = get_row_col_from_mouse(pos)
-                # game.select(row, col)
-                # game.update()
+                pygame.quit()
+                sys.exit()
 
-    pygame.quit()
-main()
+        game.draw_board()
+
+        pygame.display.flip()
+        clock.tick(60)
+
+if __name__ == "__main__":
+    main()

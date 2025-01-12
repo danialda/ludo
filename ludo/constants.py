@@ -1,16 +1,23 @@
-import pygame
+from enum import Enum
+class Color(Enum):
+    WHITE = (255, 255, 255)
+    BLACK = (0, 0, 0)
+    RED = (255, 0, 0)
+    GREEN = (0, 255, 0)
+    BLUE = (0, 0, 255)
+    YELLOW = (255, 255, 0)
+    GRAY = (200, 200, 200)
+    SKIN = (237, 193, 134)
 
-WIDTH, HEIGHT = 800, 800
-# ROWS, COLS = 8, 8
-# SQUARE_SIZE = WIDTH//COLS
-# LEVEL = 1
+class TokenStatus(Enum):
+    InHome : 0
+    InPath : 1
+    InTarget : 2
 
-#RGB
-RED = (255, 0, 0)
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-BLUE = (0, 0, 255)
-GREY = (128, 128, 128)
+WIDTH, HEIGHT = 600, 600
+CELL_SIZE = WIDTH // 15
+
+
 
 # SQUARE_IMG = pygame.transform.scale(pygame.image.load('assets/square_brown_dark_1x.png'), (SQUARE_SIZE, SQUARE_SIZE))
 # EMPTY_SQUARE_IMG = pygame.transform.scale(pygame.image.load('assets/square gray dark _1x.png'), (SQUARE_SIZE, SQUARE_SIZE))
