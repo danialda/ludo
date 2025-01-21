@@ -1,4 +1,5 @@
 from enum import Enum
+import pygame
 class Color(Enum):
     WHITE = (255, 255, 255)
     BLACK = (0, 0, 0)
@@ -9,17 +10,31 @@ class Color(Enum):
     GRAY = (200, 200, 200)
     SKIN = (237, 193, 134)
 
-class TokenStatus(Enum):
-    InHome : 0
-    InPath : 1
-    InTarget : 2
+class Player(Enum):
+    blue = "Blue"
+    green = "Green"
+    yellow = "Yellow"
+    red = "Red"
+
+PlayerColor = {
+Player.red.value : Color.RED.value,
+Player.green.value : Color.GREEN.value,
+Player.blue.value : Color.BLUE.value,
+Player.yellow.value : Color.YELLOW.value
+    }
 
 WIDTH, HEIGHT = 600, 600
 CELL_SIZE = WIDTH // 15
 
+pygame.font.init() 
+font = pygame.font.Font(None, 36) 
 
-
-# SQUARE_IMG = pygame.transform.scale(pygame.image.load('assets/square_brown_dark_1x.png'), (SQUARE_SIZE, SQUARE_SIZE))
+greenTokenIcon = pygame.image.load("assets/greenToken.png")
+yellowTokenIcon = pygame.image.load("assets/yellowToken.png")
+redTokenIcon = pygame.image.load("assets/redToken.png")
+blueTokenIcon = pygame.image.load("assets/blueToken.png")
+ludoIcon = pygame.image.load("assets/ludo.png")
+# blueToken = pygame.image.load("assets/")
 # EMPTY_SQUARE_IMG = pygame.transform.scale(pygame.image.load('assets/square gray dark _1x.png'), (SQUARE_SIZE, SQUARE_SIZE))
 
 # PLAYER_RED_IMG = pygame.transform.scale(pygame.image.load('assets/player_red.png'), (SQUARE_SIZE * 0.9, SQUARE_SIZE * 0.9))

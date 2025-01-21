@@ -1,20 +1,10 @@
-import pygame
-import sys
-from ludo.game_structure import GameStructure
+
+from ludo.game import Game
+
 
 def main():
-    clock = pygame.time.Clock()
-    game = GameStructure()
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-
-        game.draw_board()
-
-        pygame.display.flip()
-        clock.tick(60)
+    game = Game()
+    game.play_game()
 
 if __name__ == "__main__":
     main()
