@@ -6,7 +6,7 @@ from ludo.constants import WIDTH , HEIGHT , CELL_SIZE ,greenTokenIcon ,redTokenI
 class GameGui:
     pygame.init()
     player = Player.blue.value
-    diceValue = 4
+    diceValue = 1
     pathOfSelectedToken = []
     def __init__(self, board):
         self.board = board  
@@ -48,7 +48,8 @@ class GameGui:
     blueIcon = pygame.transform.scale(blueTokenIcon, (35, 35))
     
     def refresh(self, board,player,diceValue):
-        self.board = board  
+        self.board = board
+        # print(self.board.tokens)
         self.tokens = self.board.tokens
         self.diceValue = diceValue
         self.player = player
@@ -87,7 +88,7 @@ class GameGui:
                 pygame.draw.rect(self.screen, Color.BLACK.value, (col * CELL_SIZE, row *CELL_SIZE, CELL_SIZE, CELL_SIZE),3)
     
     def getCommonElements(self):
-        lists = [self.blueTokens,self.greenTokens]
+        lists = [self.blueTokens,self.redTokens,self.greenTokens,self.yellowTokens]
         allValues = [value for sublist in lists for value in sublist if value != -1]
         valueCounts = Counter(allValues)
         commonValues = { value:count for value, count in valueCounts.items() if count >= 2}
