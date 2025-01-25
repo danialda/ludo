@@ -8,10 +8,11 @@ class GameGui:
     player = Player.blue.value
     diceValue = 1
     pathOfSelectedToken = []
-    def __init__(self, board):
+    def __init__(self, board,screen):
         self.board = board  
         self.tokens = self.board.tokens
         self.validTokens = self.board.get_valid_moves(self.player,self.diceValue)
+        self.screen = screen
     postionInBoard=[
         (6,1),(6,2),(6,3),(6,4),(6,5),
         (5,6),(4,6),(3,6),(2,6),(1,6),(0,6),
@@ -38,8 +39,6 @@ class GameGui:
         Player.green.value: [(11,11),(11,12),(12,11),(12,12)], 
         Player.yellow.value: [(11,2),(11,3),(12,2),(12,3)]
     }
-    
-    screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Ludo Game")
     pygame.display.set_icon(ludoIcon)
     greenIcon = pygame.transform.scale(greenTokenIcon, (35, 35))

@@ -1,16 +1,18 @@
 import pygame
 import sys
 from ludo.game_gui import GameGui
-from ludo.constants import CELL_SIZE,Player
+from ludo.constants import CELL_SIZE,Player,WIDTH,HEIGHT
 import random
 from ludo.board import Board
 from ludo.ai import AI
+from ludo.selectNumOfPlayers_gui import SelectNumOfPlayers
 
 
 class Game:
     def __init__(self):
         self.ai = AI()
         self.board = Board()
+        self.startGui = True
         self.players = [Player.blue.value,Player.red.value,Player.green.value,Player.yellow.value]
 
     def roll_dice(self) -> int:
@@ -30,8 +32,8 @@ class Game:
             return False
         # if player == Player.blue.value:
         #     best_move = AI.expectimax(self.board, dice_roll, 1, False, False,self.players) 
-        best_move = self.ai.applyAlgorthim(self.board, dice_roll, 2, True, False,self.players,indexOfPlayer,True if self.numOfPlayers == 2 else False)
-        
+        best_move,numOfBoards = self.ai.applyAlgorthim(self.board, dice_roll, 2, True, False,self.players,indexOfPlayer,True if self.numOfPlayers == 2 else False)
+        print(self.players[indexOfPlayer],' num of visited boards: ',numOfBoards)
         _,self.board= best_move
         # move = AI.simple_ai(self,valid_moves,player,dice_roll)
 
@@ -39,17 +41,27 @@ class Game:
         return True
 
     
+    
     def play_game(self):
         clock = pygame.time.Clock()
-        gameInterface = GameGui(self.board)
-        turn = 0
-        self.numOfPlayers=2
+        screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        gameInterface = GameGui(self.board,screen)
+        turn = 1
+        self.numOfPlayers=4
         me = self.players[turn]
-        dice_roll = self.roll_dice()
         turns_num = 0
+        my_Turn = True
+        counterWithOut_6 = 0
+        self.numOfPlayers =  SelectNumOfPlayers(screen)
+        self.startGui = False
         while True:
             current_player = self.players[turn % 4]
             if(current_player == me):
+                if(my_Turn):
+                    dice_roll = self.roll_dice()
+                    my_Turn = False
+                    gameInterface.refresh(self.board,current_player,dice_roll)
+                    pygame.display.update()
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         pygame.quit()
@@ -58,6 +70,7 @@ class Game:
                         if(len(gameInterface.validTokens) == 0): 
                             turn +=2 if self.numOfPlayers == 2 else 1
                             turns_num = 0
+                            counterWithOut_6 +=1
                         else:
                             pos = pygame.mouse.get_pos()
                             row, col = self.get_row_col_from_mouse(pos)
@@ -78,7 +91,6 @@ class Game:
                 # print(self.players[turn%4]," : ",self.board.tokens[self.players[turn%4]])
                 dice_roll = self.roll_dice()
                 self.play_turn(turn%4 , dice_roll)
-                print("danial")
                 turns_num +=1
                 if (dice_roll != 6 and not (self.board.hasKilled or self.board.reachTarget)) or turns_num >= 3:
                     turn +=2 if self.numOfPlayers == 2 else 1
@@ -89,14 +101,15 @@ class Game:
                     dice_roll = self.roll_dice()
                 self.board.hasKilled = False
                 self.board.reachTarget = False
+                my_Turn = True
             if self.board.check_winner() != None:
                 print(self.board.check_winner())
                 break    
             gameInterface.draw_board()
             pygame.display.flip()
             clock.tick(60)
-
-    # ////////////////////////////////////////////////////////
+    
+    # //    //////////////////////////////////////////////////////
 
     # def play_game_test(self) -> None:
     #     turn = 0

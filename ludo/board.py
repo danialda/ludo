@@ -14,9 +14,9 @@ class Board:
         # Home positions for each player
         self.tokens = {
             Player.red.value: [-1, -1, -1, -1],   # -1 means token is in yard
-            Player.blue.value: [33, 4, 5, 34],
+            Player.blue.value: [-1, -1, -1, -1],
             Player.yellow.value: [-1, -1, -1, -1],
-            Player.green.value: [-1, 3, -1, -1],
+            Player.green.value: [-1, -1, -1, -1],
         }
         
         # Home run tracks (6 spaces before finishing)
@@ -219,6 +219,14 @@ class Board:
 
     # def evaluate(self):
     #     return self.distance(Player.blue.value) - self.distance(Player.green.value)
+
+
+    def display_board(self) -> None:
+        print("\nBoard State:")
+        print("Main Track:", self.board)
+        for player in self.players:
+            print(f"{player} tokens:", self.tokens[player])
+            print(f"{player} home run:", self.home_runs[player])
 
     def evaluate(self,playerIndex,towPlayers):
         if(towPlayers):
